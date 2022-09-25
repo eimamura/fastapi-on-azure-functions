@@ -1,6 +1,6 @@
 import logging
 import azure.functions as func
-import nest_asyncio
+#import nest_asyncio
 
 
 from fastapi import FastAPI
@@ -13,7 +13,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-nest_asyncio.apply()
+#nest_asyncio.apply()
 
 
 @app.get("/sample")
