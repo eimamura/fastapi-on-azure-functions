@@ -5,8 +5,6 @@ import nest_asyncio
 
 from fastapi import FastAPI
 
-nest_asyncio.apply()
-
 app = FastAPI()
 
 
@@ -15,7 +13,7 @@ async def root():
     return {"message": "Hello World"}
 
 
-#nest_asyncio.apply()
+nest_asyncio.apply()
 
 
 @app.get("/sample")
