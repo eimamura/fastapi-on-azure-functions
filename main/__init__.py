@@ -1,24 +1,34 @@
 import logging
-
 import azure.functions as func
+import nest_asyncio
 
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+from fastapi import FastAPI
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+app = FastAPI()
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+nest_asyncio.apply()
+
+
+@app.get("/sample")
+async def index():
+    return {
+        "info": "Try /hello/Shivani for parameterized route.",
+    }
+
+
+@app.get("/hello/{name}")
+async def get_name(name: str):
+    return {
+        "name": name,
+    }
+
+async def main(req: func.HttpRequest, context: func.Context) -> func.HttpResponse:
+    """Each request is redirected to the ASGI handler."""
+    return func.AsgiMiddleware(app).handle(req, context)
