@@ -1,9 +1,11 @@
 import logging
 import azure.functions as func
-#import nest_asyncio
+import nest_asyncio
 
 
 from fastapi import FastAPI
+
+nest_asyncio.apply()
 
 app = FastAPI()
 
